@@ -1,0 +1,23 @@
+scalar Json
+
+type Query {
+  createPost(input: CreatePostInput!): CreatePostResponse!
+}
+
+input CreatePostInput {
+  slug: String!
+}
+
+type CreatePostResponse {
+  post: Post
+}
+
+type Post {
+  id: ID!
+  slug: String!
+  content: PostContent!
+}
+
+type PostContent {
+  json: Json!
+}
