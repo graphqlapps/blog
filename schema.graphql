@@ -1,6 +1,10 @@
 scalar Json
 
 type Query {
+  postBySlug(input: PostBySlugInput!): PostBySlugResponse!
+}
+
+type Mutation {
   createPost(input: CreatePostInput!): CreatePostResponse!
 }
 
@@ -20,4 +24,12 @@ type Post {
 
 type PostContent {
   json: Json!
+}
+
+input PostBySlugInput {
+  slug: String!
+}
+
+type PostBySlugResponse {
+  post: Post
 }

@@ -24,11 +24,30 @@ export type CreatePostResponse = {
   post?: Maybe<Post>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  createPost: CreatePostResponse;
+};
+
+
+export type MutationCreatePostArgs = {
+  input: CreatePostInput;
+};
+
 export type Post = {
   __typename?: 'Post';
   content: PostContent;
   id: Scalars['ID'];
   slug: Scalars['String'];
+};
+
+export type PostBySlugInput = {
+  slug: Scalars['String'];
+};
+
+export type PostBySlugResponse = {
+  __typename?: 'PostBySlugResponse';
+  post?: Maybe<Post>;
 };
 
 export type PostContent = {
@@ -38,12 +57,12 @@ export type PostContent = {
 
 export type Query = {
   __typename?: 'Query';
-  createPost: CreatePostResponse;
+  postBySlug: PostBySlugResponse;
 };
 
 
-export type QueryCreatePostArgs = {
-  input: CreatePostInput;
+export type QueryPostBySlugArgs = {
+  input: PostBySlugInput;
 };
 
 
@@ -120,7 +139,10 @@ export type ResolversTypes = {
   CreatePostResponse: ResolverTypeWrapper<CreatePostResponse>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Json: ResolverTypeWrapper<Scalars['Json']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<Post>;
+  PostBySlugInput: PostBySlugInput;
+  PostBySlugResponse: ResolverTypeWrapper<PostBySlugResponse>;
   PostContent: ResolverTypeWrapper<PostContent>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -133,7 +155,10 @@ export type ResolversParentTypes = {
   CreatePostResponse: CreatePostResponse;
   ID: Scalars['ID'];
   Json: Scalars['Json'];
+  Mutation: {};
   Post: Post;
+  PostBySlugInput: PostBySlugInput;
+  PostBySlugResponse: PostBySlugResponse;
   PostContent: PostContent;
   Query: {};
   String: Scalars['String'];
@@ -148,10 +173,19 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'Json';
 }
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createPost?: Resolver<ResolversTypes['CreatePostResponse'], ParentType, ContextType, RequireFields<MutationCreatePostArgs, 'input'>>;
+};
+
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
   content?: Resolver<ResolversTypes['PostContent'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PostBySlugResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['PostBySlugResponse'] = ResolversParentTypes['PostBySlugResponse']> = {
+  post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -161,13 +195,15 @@ export type PostContentResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  createPost?: Resolver<ResolversTypes['CreatePostResponse'], ParentType, ContextType, RequireFields<QueryCreatePostArgs, 'input'>>;
+  postBySlug?: Resolver<ResolversTypes['PostBySlugResponse'], ParentType, ContextType, RequireFields<QueryPostBySlugArgs, 'input'>>;
 };
 
 export type Resolvers<ContextType = any> = {
   CreatePostResponse?: CreatePostResponseResolvers<ContextType>;
   Json?: GraphQLScalarType;
+  Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
+  PostBySlugResponse?: PostBySlugResponseResolvers<ContextType>;
   PostContent?: PostContentResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
