@@ -1,13 +1,14 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 9000",
     "build": "next build",
     "start": "next start",
     "predev": "yarn graphql-codegen"
   },
   "dependencies": {
     "@graphql-yoga/node": "^2.13.6",
+    "@graphqlapps/ide": "^0.0.994",
     "@lexical/react": "^0.3.8",
     "graphql": "^16.5.0",
     "lexical": "^0.3.8",
