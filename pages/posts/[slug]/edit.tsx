@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Editor } from "../../../src/Editor";
 import { Preview } from "../../../src/Preview";
+import { usePostBySlugQuery } from "../../../src/types";
+import { useRouter } from "next/router";
 
 export default function EditPostPage() {
-  const [doc, setDoc] = useState(
-    "# Hello markdown\n\n```javascript\nlet x = 'y'\n```"
-  );
+  const { query } = useRouter();
+  const slug = query.slug as string;
+  const postBySlug = usePostBySlugQuery({ variables: { input: { slug } } });
+  const [doc, setDoc] = useState("");
   const [mode, setMode] = useState<"editor" | "preview">("editor");
   function toggleMode() {
     if (mode === "editor") {
@@ -14,6 +17,13 @@ export default function EditPostPage() {
       setMode("editor");
     }
   }
+  useEffect(() => {
+    const markdown = postBySlug.data?.postBySlug.post?.content.markdown;
+    if (markdown) {
+      setDoc(markdown);
+    }
+  }, [setDoc, postBySlug.data?.postBySlug.post?.content.markdown]);
+
   return (
     <div>
       <div className="flex justify-end p-5">
