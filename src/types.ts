@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { Post as PrismaPost } from '.prisma/client';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -6,6 +7,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -138,12 +140,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreatePostInput: CreatePostInput;
-  CreatePostResponse: ResolverTypeWrapper<CreatePostResponse>;
+  CreatePostResponse: ResolverTypeWrapper<Omit<CreatePostResponse, 'post'> & { post?: Maybe<ResolversTypes['Post']> }>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
-  Post: ResolverTypeWrapper<Post>;
+  Post: ResolverTypeWrapper<PrismaPost>;
   PostBySlugInput: PostBySlugInput;
-  PostBySlugResponse: ResolverTypeWrapper<PostBySlugResponse>;
+  PostBySlugResponse: ResolverTypeWrapper<Omit<PostBySlugResponse, 'post'> & { post?: Maybe<ResolversTypes['Post']> }>;
   PostContent: ResolverTypeWrapper<PostContent>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -153,12 +155,12 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   CreatePostInput: CreatePostInput;
-  CreatePostResponse: CreatePostResponse;
+  CreatePostResponse: Omit<CreatePostResponse, 'post'> & { post?: Maybe<ResolversParentTypes['Post']> };
   ID: Scalars['ID'];
   Mutation: {};
-  Post: Post;
+  Post: PrismaPost;
   PostBySlugInput: PostBySlugInput;
-  PostBySlugResponse: PostBySlugResponse;
+  PostBySlugResponse: Omit<PostBySlugResponse, 'post'> & { post?: Maybe<ResolversParentTypes['Post']> };
   PostContent: PostContent;
   Query: {};
   String: Scalars['String'];

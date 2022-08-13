@@ -1,26 +1,29 @@
-import { randomUUID } from "crypto";
-import { Post, Resolvers } from "./types";
-
-const postsBySlug: Record<string, Post> = {};
+import { Resolvers } from "./types";
+import { prisma } from "./db";
 
 export const resolvers: Resolvers = {
   Query: {
     postBySlug: async (_, { input: { slug } }) => {
       return {
-        post: postsBySlug[slug],
+        post: await prisma.post.findUnique({
+          where: { slug },
+          include: { content: true },
+        }),
       };
     },
   },
   Mutation: {
     createPost: async (_, { input: { slug } }) => {
-      const post: Post = {
-        id: randomUUID(),
-        slug,
-        content: {
-          markdown: "# Hello markdown\n\n```javascript\nlet x = 'y'\n```",
+      const post = await prisma.post.create({
+        data: {
+          slug,
+          content: {
+            create: {
+              markdown: "# Hello markdown\n\n```javascript\nlet x = 'y'\n```",
+            },
+          },
         },
-      };
-      postsBySlug[slug] = post;
+      });
 
       return {
         post,

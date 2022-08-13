@@ -4,7 +4,7 @@
     "dev": "next dev -p 9000",
     "build": "next build",
     "start": "next start",
-    "predev": "yarn graphql-codegen"
+    "predev": "yarn prisma generate && yarn graphql-codegen"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
@@ -14,10 +14,12 @@
     "@graphql-yoga/node": "^2.13.6",
     "@graphqlapps/ide": "^0.0.994",
     "@lexical/react": "^0.3.8",
+    "@prisma/client": "4.2.1",
     "@uiw/react-codemirror": "^4.11.4",
     "graphql": "^16.5.0",
     "lexical": "^0.3.8",
     "next": "latest",
+    "prisma": "^4.2.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-markdown": "^8.0.3",
