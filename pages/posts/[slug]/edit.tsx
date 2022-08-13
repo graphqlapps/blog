@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Editor } from "../../../src/Editor";
 import { Preview } from "../../../src/Preview";
-import { usePostBySlugQuery } from "../../../src/types";
+import {
+  useEditPostContentMutation,
+  usePostBySlugQuery,
+} from "../../../src/types";
 import { useRouter } from "next/router";
 
 export default function EditPostPage() {
@@ -23,11 +26,27 @@ export default function EditPostPage() {
       setDoc(markdown);
     }
   }, [setDoc, postBySlug.data?.postBySlug.post?.content.markdown]);
+  const [editPostContent, { loading }] = useEditPostContentMutation();
 
   return (
     <div>
-      <div className="flex justify-end p-5">
-        <button onClick={toggleMode}>Preview</button>
+      <div className="flex justify-end p-5 space-x-2">
+        <button
+          className="px-3 py-1 rounded-lg text-gray-600"
+          onClick={toggleMode}
+        >
+          Preview
+        </button>
+        <button
+          className="px-3 py-1 rounded-lg bg-blue-400 text-white hover:bg-white border border-blue-400 hover:text-blue-400"
+          onClick={() => {
+            editPostContent({
+              variables: { input: { slug, markdown: doc } },
+            });
+          }}
+        >
+          {loading ? "Saving..." : "Save"}
+        </button>
       </div>
       <div className="prose lg:prose-xl mx-auto p-5">
         {mode === "editor" ? (
