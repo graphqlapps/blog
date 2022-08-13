@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { GraphQLResolveInfo } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -12,7 +12,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Json: any;
 };
 
 export type CreatePostInput = {
@@ -52,7 +51,7 @@ export type PostBySlugResponse = {
 
 export type PostContent = {
   __typename?: 'PostContent';
-  json: Scalars['Json'];
+  markdown: Scalars['String'];
 };
 
 export type Query = {
@@ -138,7 +137,6 @@ export type ResolversTypes = {
   CreatePostInput: CreatePostInput;
   CreatePostResponse: ResolverTypeWrapper<CreatePostResponse>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
-  Json: ResolverTypeWrapper<Scalars['Json']>;
   Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<Post>;
   PostBySlugInput: PostBySlugInput;
@@ -154,7 +152,6 @@ export type ResolversParentTypes = {
   CreatePostInput: CreatePostInput;
   CreatePostResponse: CreatePostResponse;
   ID: Scalars['ID'];
-  Json: Scalars['Json'];
   Mutation: {};
   Post: Post;
   PostBySlugInput: PostBySlugInput;
@@ -168,10 +165,6 @@ export type CreatePostResponseResolvers<ContextType = any, ParentType extends Re
   post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
-
-export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Json'], any> {
-  name: 'Json';
-}
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createPost?: Resolver<ResolversTypes['CreatePostResponse'], ParentType, ContextType, RequireFields<MutationCreatePostArgs, 'input'>>;
@@ -190,7 +183,7 @@ export type PostBySlugResponseResolvers<ContextType = any, ParentType extends Re
 };
 
 export type PostContentResolvers<ContextType = any, ParentType extends ResolversParentTypes['PostContent'] = ResolversParentTypes['PostContent']> = {
-  json?: Resolver<ResolversTypes['Json'], ParentType, ContextType>;
+  markdown?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -200,7 +193,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type Resolvers<ContextType = any> = {
   CreatePostResponse?: CreatePostResponseResolvers<ContextType>;
-  Json?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   PostBySlugResponse?: PostBySlugResponseResolvers<ContextType>;
