@@ -28,14 +28,30 @@ export type CreatePostResponse = {
   post?: Maybe<Post>;
 };
 
+export type EditPostContentInput = {
+  markdown: Scalars['String'];
+  slug: Scalars['String'];
+};
+
+export type EditPostContentResponse = {
+  __typename?: 'EditPostContentResponse';
+  post?: Maybe<Post>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createPost: CreatePostResponse;
+  editPostContent: EditPostContentResponse;
 };
 
 
 export type MutationCreatePostArgs = {
   input: CreatePostInput;
+};
+
+
+export type MutationEditPostContentArgs = {
+  input: EditPostContentInput;
 };
 
 export type Post = {
@@ -141,6 +157,8 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreatePostInput: CreatePostInput;
   CreatePostResponse: ResolverTypeWrapper<Omit<CreatePostResponse, 'post'> & { post?: Maybe<ResolversTypes['Post']> }>;
+  EditPostContentInput: EditPostContentInput;
+  EditPostContentResponse: ResolverTypeWrapper<Omit<EditPostContentResponse, 'post'> & { post?: Maybe<ResolversTypes['Post']> }>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<PrismaPost>;
@@ -156,6 +174,8 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   CreatePostInput: CreatePostInput;
   CreatePostResponse: Omit<CreatePostResponse, 'post'> & { post?: Maybe<ResolversParentTypes['Post']> };
+  EditPostContentInput: EditPostContentInput;
+  EditPostContentResponse: Omit<EditPostContentResponse, 'post'> & { post?: Maybe<ResolversParentTypes['Post']> };
   ID: Scalars['ID'];
   Mutation: {};
   Post: PrismaPost;
@@ -171,8 +191,14 @@ export type CreatePostResponseResolvers<ContextType = any, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type EditPostContentResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['EditPostContentResponse'] = ResolversParentTypes['EditPostContentResponse']> = {
+  post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createPost?: Resolver<ResolversTypes['CreatePostResponse'], ParentType, ContextType, RequireFields<MutationCreatePostArgs, 'input'>>;
+  editPostContent?: Resolver<ResolversTypes['EditPostContentResponse'], ParentType, ContextType, RequireFields<MutationEditPostContentArgs, 'input'>>;
 };
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
@@ -198,6 +224,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type Resolvers<ContextType = any> = {
   CreatePostResponse?: CreatePostResponseResolvers<ContextType>;
+  EditPostContentResponse?: EditPostContentResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   PostBySlugResponse?: PostBySlugResponseResolvers<ContextType>;
@@ -205,6 +232,13 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
 };
 
+
+export type EditPostContentMutationVariables = Exact<{
+  input: EditPostContentInput;
+}>;
+
+
+export type EditPostContentMutation = { __typename?: 'Mutation', editPostContent: { __typename?: 'EditPostContentResponse', post?: { __typename?: 'Post', id: string, slug: string, content: { __typename?: 'PostContent', markdown: string } } | null } };
 
 export type PostBySlugQueryVariables = Exact<{
   input: PostBySlugInput;
@@ -214,6 +248,45 @@ export type PostBySlugQueryVariables = Exact<{
 export type PostBySlugQuery = { __typename?: 'Query', postBySlug: { __typename?: 'PostBySlugResponse', post?: { __typename?: 'Post', id: string, slug: string, content: { __typename?: 'PostContent', markdown: string } } | null } };
 
 
+export const EditPostContentDocument = gql`
+    mutation EditPostContent($input: EditPostContentInput!) {
+  editPostContent(input: $input) {
+    post {
+      id
+      slug
+      content {
+        markdown
+      }
+    }
+  }
+}
+    `;
+export type EditPostContentMutationFn = Apollo.MutationFunction<EditPostContentMutation, EditPostContentMutationVariables>;
+
+/**
+ * __useEditPostContentMutation__
+ *
+ * To run a mutation, you first call `useEditPostContentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditPostContentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editPostContentMutation, { data, loading, error }] = useEditPostContentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditPostContentMutation(baseOptions?: Apollo.MutationHookOptions<EditPostContentMutation, EditPostContentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditPostContentMutation, EditPostContentMutationVariables>(EditPostContentDocument, options);
+      }
+export type EditPostContentMutationHookResult = ReturnType<typeof useEditPostContentMutation>;
+export type EditPostContentMutationResult = Apollo.MutationResult<EditPostContentMutation>;
+export type EditPostContentMutationOptions = Apollo.BaseMutationOptions<EditPostContentMutation, EditPostContentMutationVariables>;
 export const PostBySlugDocument = gql`
     query PostBySlug($input: PostBySlugInput!) {
   postBySlug(input: $input) {

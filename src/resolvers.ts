@@ -23,6 +23,28 @@ export const resolvers: Resolvers = {
             },
           },
         },
+        include: {
+          content: true,
+        },
+      });
+
+      return {
+        post,
+      };
+    },
+    editPostContent: async (_, { input: { markdown, slug } }) => {
+      const post = await prisma.post.update({
+        where: { slug },
+        data: {
+          content: {
+            update: {
+              markdown,
+            },
+          },
+        },
+        include: {
+          content: true,
+        },
       });
 
       return {
