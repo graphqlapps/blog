@@ -1,33 +1,31 @@
-import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { useState } from "react";
+import { Editor } from "../../../src/Editor";
+import { Preview } from "../../../src/Preview";
 
 export default function EditPostPage() {
-  return <Editor />;
-}
-
-function Editor() {
-  const initialConfig = {
-    namespace: "MyEditor",
-    onError: () => {},
-  };
-
+  const [doc, setDoc] = useState(
+    "# Hello markdown\n\n```javascript\nlet x = 'y'\n```"
+  );
+  const [mode, setMode] = useState<"editor" | "preview">("editor");
+  function toggleMode() {
+    if (mode === "editor") {
+      setMode("preview");
+    } else {
+      setMode("editor");
+    }
+  }
   return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <div className="max-w-3xl mx-auto relative mt-5">
-        <PlainTextPlugin
-          contentEditable={
-            <ContentEditable className="min-h-[150px] outline-0" />
-          }
-          placeholder={
-            <div className="absolute top-0 left-0 text-gray-400 text-lg overflow-hidden select-none pointer-events-none">
-              Tell your story...
-            </div>
-          }
-        />
-        <HistoryPlugin />
+    <div>
+      <div className="flex justify-end p-5">
+        <button onClick={toggleMode}>Preview</button>
       </div>
-    </LexicalComposer>
+      <div className="prose lg:prose-xl mx-auto p-5">
+        {mode === "editor" ? (
+          <Editor doc={doc} setDoc={setDoc} />
+        ) : (
+          <Preview doc={doc} />
+        )}
+      </div>
+    </div>
   );
 }
