@@ -3,6 +3,14 @@ import { prisma } from "./db";
 
 export const resolvers: Resolvers = {
   Query: {
+    posts: async () => {
+      const posts = await prisma.post.findMany({ include: { content: true } });
+      return {
+        edges: posts.map((post) => ({
+          node: post,
+        })),
+      };
+    },
     postBySlug: async (_, { input: { slug } }) => {
       return {
         post: await prisma.post.findUnique({
@@ -10,6 +18,11 @@ export const resolvers: Resolvers = {
           include: { content: true },
         }),
       };
+    },
+  },
+  Post: {
+    __isTypeOf: (obj) => {
+      return obj.postContentId !== undefined;
     },
   },
   Mutation: {

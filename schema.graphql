@@ -1,10 +1,23 @@
 type Query {
+  posts: PostsResponse!
   postBySlug(input: PostBySlugInput!): PostBySlugResponse!
 }
 
 type Mutation {
   createPost(input: CreatePostInput!): CreatePostResponse!
   editPostContent(input: EditPostContentInput!): EditPostContentResponse!
+}
+
+type PostsResponse {
+  edges: [ConnectionEdge!]!
+}
+
+type ConnectionEdge {
+  node: ConnectionNode!
+}
+
+interface ConnectionNode {
+  id: ID!
 }
 
 input CreatePostInput {
@@ -24,7 +37,7 @@ type EditPostContentResponse {
   post: Post
 }
 
-type Post {
+type Post implements ConnectionNode {
   id: ID!
   slug: String!
   content: PostContent!

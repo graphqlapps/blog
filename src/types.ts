@@ -19,6 +19,15 @@ export type Scalars = {
   Float: number;
 };
 
+export type ConnectionEdge = {
+  __typename?: 'ConnectionEdge';
+  node: ConnectionNode;
+};
+
+export type ConnectionNode = {
+  id: Scalars['ID'];
+};
+
 export type CreatePostInput = {
   slug: Scalars['String'];
 };
@@ -54,7 +63,7 @@ export type MutationEditPostContentArgs = {
   input: EditPostContentInput;
 };
 
-export type Post = {
+export type Post = ConnectionNode & {
   __typename?: 'Post';
   content: PostContent;
   id: Scalars['ID'];
@@ -75,9 +84,15 @@ export type PostContent = {
   markdown: Scalars['String'];
 };
 
+export type PostsResponse = {
+  __typename?: 'PostsResponse';
+  edges: Array<ConnectionEdge>;
+};
+
 export type Query = {
   __typename?: 'Query';
   postBySlug: PostBySlugResponse;
+  posts: PostsResponse;
 };
 
 
@@ -155,6 +170,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  ConnectionEdge: ResolverTypeWrapper<ConnectionEdge>;
+  ConnectionNode: ResolversTypes['Post'];
   CreatePostInput: CreatePostInput;
   CreatePostResponse: ResolverTypeWrapper<Omit<CreatePostResponse, 'post'> & { post?: Maybe<ResolversTypes['Post']> }>;
   EditPostContentInput: EditPostContentInput;
@@ -165,6 +182,7 @@ export type ResolversTypes = {
   PostBySlugInput: PostBySlugInput;
   PostBySlugResponse: ResolverTypeWrapper<Omit<PostBySlugResponse, 'post'> & { post?: Maybe<ResolversTypes['Post']> }>;
   PostContent: ResolverTypeWrapper<PostContent>;
+  PostsResponse: ResolverTypeWrapper<PostsResponse>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
 };
@@ -172,6 +190,8 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  ConnectionEdge: ConnectionEdge;
+  ConnectionNode: ResolversParentTypes['Post'];
   CreatePostInput: CreatePostInput;
   CreatePostResponse: Omit<CreatePostResponse, 'post'> & { post?: Maybe<ResolversParentTypes['Post']> };
   EditPostContentInput: EditPostContentInput;
@@ -182,8 +202,19 @@ export type ResolversParentTypes = {
   PostBySlugInput: PostBySlugInput;
   PostBySlugResponse: Omit<PostBySlugResponse, 'post'> & { post?: Maybe<ResolversParentTypes['Post']> };
   PostContent: PostContent;
+  PostsResponse: PostsResponse;
   Query: {};
   String: Scalars['String'];
+};
+
+export type ConnectionEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConnectionEdge'] = ResolversParentTypes['ConnectionEdge']> = {
+  node?: Resolver<ResolversTypes['ConnectionNode'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ConnectionNodeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConnectionNode'] = ResolversParentTypes['ConnectionNode']> = {
+  __resolveType: TypeResolveFn<'Post', ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 };
 
 export type CreatePostResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreatePostResponse'] = ResolversParentTypes['CreatePostResponse']> = {
@@ -218,17 +249,26 @@ export type PostContentResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PostsResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['PostsResponse'] = ResolversParentTypes['PostsResponse']> = {
+  edges?: Resolver<Array<ResolversTypes['ConnectionEdge']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   postBySlug?: Resolver<ResolversTypes['PostBySlugResponse'], ParentType, ContextType, RequireFields<QueryPostBySlugArgs, 'input'>>;
+  posts?: Resolver<ResolversTypes['PostsResponse'], ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
+  ConnectionEdge?: ConnectionEdgeResolvers<ContextType>;
+  ConnectionNode?: ConnectionNodeResolvers<ContextType>;
   CreatePostResponse?: CreatePostResponseResolvers<ContextType>;
   EditPostContentResponse?: EditPostContentResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   PostBySlugResponse?: PostBySlugResponseResolvers<ContextType>;
   PostContent?: PostContentResolvers<ContextType>;
+  PostsResponse?: PostsResponseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
 
@@ -246,6 +286,11 @@ export type PostBySlugQueryVariables = Exact<{
 
 
 export type PostBySlugQuery = { __typename?: 'Query', postBySlug: { __typename?: 'PostBySlugResponse', post?: { __typename?: 'Post', id: string, slug: string, content: { __typename?: 'PostContent', markdown: string } } | null } };
+
+export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PostsResponse', edges: Array<{ __typename?: 'ConnectionEdge', node: { __typename?: 'Post', id: string, slug: string, content: { __typename?: 'PostContent', markdown: string } } }> } };
 
 
 export const EditPostContentDocument = gql`
@@ -328,3 +373,47 @@ export function usePostBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type PostBySlugQueryHookResult = ReturnType<typeof usePostBySlugQuery>;
 export type PostBySlugLazyQueryHookResult = ReturnType<typeof usePostBySlugLazyQuery>;
 export type PostBySlugQueryResult = Apollo.QueryResult<PostBySlugQuery, PostBySlugQueryVariables>;
+export const PostsDocument = gql`
+    query Posts {
+  posts {
+    edges {
+      node {
+        ... on Post {
+          id
+          slug
+          content {
+            markdown
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __usePostsQuery__
+ *
+ * To run a query within a React component, call `usePostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePostsQuery(baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
+      }
+export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
+        }
+export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
+export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
+export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;

@@ -1,0 +1,15 @@
+query Posts {
+  posts {
+    edges {
+      node {
+        ... on Post {
+          id
+          slug
+          content {
+            markdown
+          }
+        }
+      }
+    }
+  }
+}
