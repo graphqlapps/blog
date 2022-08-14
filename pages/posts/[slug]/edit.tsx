@@ -48,7 +48,7 @@ export default function EditPostPage() {
           {loading ? "Saving..." : "Save"}
         </button>
       </div>
-      <div className="prose lg:prose-xl mx-auto p-5">
+      <div className="p-5">
         {mode === "editor" ? (
           <Editor doc={doc} setDoc={setDoc} />
         ) : (

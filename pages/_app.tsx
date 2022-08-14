@@ -10,7 +10,9 @@ const client = new ApolloClient({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
-      <Component {...pageProps} />
+      <div className="prose lg:prose-xl mx-auto">
+        <Component {...pageProps} />
+      </div>
     </ApolloProvider>
   );
 }
