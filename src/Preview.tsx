@@ -13,6 +13,7 @@ export function Preview({ doc }: { doc: string }) {
             return !inline && match ? (
               <SyntaxHighlighter
                 children={String(children).replace(/\n$/, "")}
+                // @ts-ignore
                 style={dark}
                 language={match[1]}
                 PreTag={Fragment}
