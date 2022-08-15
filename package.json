@@ -4,7 +4,8 @@
     "dev": "next dev -p 9000",
     "build": "next build",
     "start": "next start",
-    "predev": "yarn prisma generate && yarn graphql-codegen"
+    "predev": "yarn prisma generate && yarn graphql-codegen",
+    "vercel-build": "prisma migrate deploy && next build"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
