@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import "@uppy/core/dist/style.css";
+import "@uppy/status-bar/dist/style.css";
 
 const client = new ApolloClient({
   uri: "/api/graphql",

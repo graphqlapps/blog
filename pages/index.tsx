@@ -7,9 +7,9 @@ const Home: NextPage = () => {
   const postsResponse = usePostsQuery();
 
   return (
-    <div className="p-20 space-y-20">
-      <h1>Your stories</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+    <div className="p-5 space-y-20">
+      <h1 className="text-gray-600">Your stories</h1>
+      <div className="grid grid-cols-1 gap-5">
         {postsResponse.data?.posts.edges.map((edge) => {
           return (
             <Link href={`/posts/${edge.node.slug}/edit`}>

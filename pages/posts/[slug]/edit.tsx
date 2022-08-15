@@ -6,6 +6,7 @@ import {
   usePostBySlugQuery,
 } from "../../../src/types";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function EditPostPage() {
   const { query } = useRouter();
@@ -30,23 +31,30 @@ export default function EditPostPage() {
 
   return (
     <div>
-      <div className="flex justify-end p-5 space-x-2">
-        <button
-          className="px-3 py-1 rounded-lg text-gray-600"
-          onClick={toggleMode}
-        >
-          Preview
-        </button>
-        <button
-          className="px-3 py-1 rounded-lg bg-blue-400 text-white hover:bg-white border border-blue-400 hover:text-blue-400"
-          onClick={() => {
-            editPostContent({
-              variables: { input: { slug, markdown: doc } },
-            });
-          }}
-        >
-          {loading ? "Saving..." : "Save"}
-        </button>
+      <div className="flex justify-between p-5">
+        <Link href={"/"}>
+          <a className="text-gray-600 text-xl flex items-center no-underline font-normal py-1">
+            Home
+          </a>
+        </Link>
+        <div className="space-x-2">
+          <button
+            className="px-3 py-1 rounded-lg text-gray-600"
+            onClick={toggleMode}
+          >
+            Preview
+          </button>
+          <button
+            className="px-3 py-1 rounded-lg bg-blue-400 text-white hover:bg-white border border-blue-400 hover:text-blue-400"
+            onClick={() => {
+              editPostContent({
+                variables: { input: { slug, markdown: doc } },
+              });
+            }}
+          >
+            {loading ? "Saving..." : "Save"}
+          </button>
+        </div>
       </div>
       <div className="p-5">
         {mode === "editor" ? (
