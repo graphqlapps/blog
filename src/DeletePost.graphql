@@ -1,0 +1,11 @@
+mutation DeletePost($input: DeletePostInput!) {
+  deletePost(input: $input) {
+    post {
+      id
+      slug
+      content {
+        markdown
+      }
+    }
+  }
+}

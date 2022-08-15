@@ -37,6 +37,15 @@ export type CreatePostResponse = {
   post?: Maybe<Post>;
 };
 
+export type DeletePostInput = {
+  slug: Scalars['String'];
+};
+
+export type DeletePostResponse = {
+  __typename?: 'DeletePostResponse';
+  post?: Maybe<Post>;
+};
+
 export type EditPostContentInput = {
   markdown: Scalars['String'];
   slug: Scalars['String'];
@@ -50,12 +59,18 @@ export type EditPostContentResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   createPost: CreatePostResponse;
+  deletePost: DeletePostResponse;
   editPostContent: EditPostContentResponse;
 };
 
 
 export type MutationCreatePostArgs = {
   input: CreatePostInput;
+};
+
+
+export type MutationDeletePostArgs = {
+  input: DeletePostInput;
 };
 
 
@@ -174,6 +189,8 @@ export type ResolversTypes = {
   ConnectionNode: ResolversTypes['Post'];
   CreatePostInput: CreatePostInput;
   CreatePostResponse: ResolverTypeWrapper<Omit<CreatePostResponse, 'post'> & { post?: Maybe<ResolversTypes['Post']> }>;
+  DeletePostInput: DeletePostInput;
+  DeletePostResponse: ResolverTypeWrapper<Omit<DeletePostResponse, 'post'> & { post?: Maybe<ResolversTypes['Post']> }>;
   EditPostContentInput: EditPostContentInput;
   EditPostContentResponse: ResolverTypeWrapper<Omit<EditPostContentResponse, 'post'> & { post?: Maybe<ResolversTypes['Post']> }>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
@@ -194,6 +211,8 @@ export type ResolversParentTypes = {
   ConnectionNode: ResolversParentTypes['Post'];
   CreatePostInput: CreatePostInput;
   CreatePostResponse: Omit<CreatePostResponse, 'post'> & { post?: Maybe<ResolversParentTypes['Post']> };
+  DeletePostInput: DeletePostInput;
+  DeletePostResponse: Omit<DeletePostResponse, 'post'> & { post?: Maybe<ResolversParentTypes['Post']> };
   EditPostContentInput: EditPostContentInput;
   EditPostContentResponse: Omit<EditPostContentResponse, 'post'> & { post?: Maybe<ResolversParentTypes['Post']> };
   ID: Scalars['ID'];
@@ -222,6 +241,11 @@ export type CreatePostResponseResolvers<ContextType = any, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type DeletePostResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeletePostResponse'] = ResolversParentTypes['DeletePostResponse']> = {
+  post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type EditPostContentResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['EditPostContentResponse'] = ResolversParentTypes['EditPostContentResponse']> = {
   post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -229,6 +253,7 @@ export type EditPostContentResponseResolvers<ContextType = any, ParentType exten
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createPost?: Resolver<ResolversTypes['CreatePostResponse'], ParentType, ContextType, RequireFields<MutationCreatePostArgs, 'input'>>;
+  deletePost?: Resolver<ResolversTypes['DeletePostResponse'], ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'input'>>;
   editPostContent?: Resolver<ResolversTypes['EditPostContentResponse'], ParentType, ContextType, RequireFields<MutationEditPostContentArgs, 'input'>>;
 };
 
@@ -263,6 +288,7 @@ export type Resolvers<ContextType = any> = {
   ConnectionEdge?: ConnectionEdgeResolvers<ContextType>;
   ConnectionNode?: ConnectionNodeResolvers<ContextType>;
   CreatePostResponse?: CreatePostResponseResolvers<ContextType>;
+  DeletePostResponse?: DeletePostResponseResolvers<ContextType>;
   EditPostContentResponse?: EditPostContentResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
@@ -279,6 +305,13 @@ export type CreatePostMutationVariables = Exact<{
 
 
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'CreatePostResponse', post?: { __typename?: 'Post', id: string, slug: string, content: { __typename?: 'PostContent', markdown: string } } | null } };
+
+export type DeletePostMutationVariables = Exact<{
+  input: DeletePostInput;
+}>;
+
+
+export type DeletePostMutation = { __typename?: 'Mutation', deletePost: { __typename?: 'DeletePostResponse', post?: { __typename?: 'Post', id: string, slug: string, content: { __typename?: 'PostContent', markdown: string } } | null } };
 
 export type EditPostContentMutationVariables = Exact<{
   input: EditPostContentInput;
@@ -339,6 +372,45 @@ export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const DeletePostDocument = gql`
+    mutation DeletePost($input: DeletePostInput!) {
+  deletePost(input: $input) {
+    post {
+      id
+      slug
+      content {
+        markdown
+      }
+    }
+  }
+}
+    `;
+export type DeletePostMutationFn = Apollo.MutationFunction<DeletePostMutation, DeletePostMutationVariables>;
+
+/**
+ * __useDeletePostMutation__
+ *
+ * To run a mutation, you first call `useDeletePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePostMutation, { data, loading, error }] = useDeletePostMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeletePostMutation(baseOptions?: Apollo.MutationHookOptions<DeletePostMutation, DeletePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument, options);
+      }
+export type DeletePostMutationHookResult = ReturnType<typeof useDeletePostMutation>;
+export type DeletePostMutationResult = Apollo.MutationResult<DeletePostMutation>;
+export type DeletePostMutationOptions = Apollo.BaseMutationOptions<DeletePostMutation, DeletePostMutationVariables>;
 export const EditPostContentDocument = gql`
     mutation EditPostContent($input: EditPostContentInput!) {
   editPostContent(input: $input) {

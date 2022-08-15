@@ -5,6 +5,7 @@ type Query {
 
 type Mutation {
   createPost(input: CreatePostInput!): CreatePostResponse!
+  deletePost(input: DeletePostInput!): DeletePostResponse!
   editPostContent(input: EditPostContentInput!): EditPostContentResponse!
 }
 
@@ -25,6 +26,14 @@ input CreatePostInput {
 }
 
 type CreatePostResponse {
+  post: Post
+}
+
+input DeletePostInput {
+  slug: String!
+}
+
+type DeletePostResponse {
   post: Post
 }
 

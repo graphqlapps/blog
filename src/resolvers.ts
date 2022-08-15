@@ -52,6 +52,14 @@ export const resolvers: Resolvers = {
         post,
       };
     },
+    deletePost: async (_, { input: { slug } }) => {
+      return {
+        post: await prisma.post.delete({
+          where: { slug },
+          include: { content: true },
+        }),
+      };
+    },
     editPostContent: async (_, { input: { markdown, slug } }) => {
       const post = await prisma.post.update({
         where: { slug },
