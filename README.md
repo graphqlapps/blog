@@ -1,27 +1,19 @@
-# Next.js + Tailwind CSS Example
+# GraphQLBlog
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+This example shows a headless markdown editor. Editors can write markdown and preview the result in the browser. Consumers can use GraphQL to fetch the markdown content.
 
-## Deploy your own
+Editor:
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+- [Codemirror](https://codemirror.net) to edit Markdown
+- [Tailwind](https://tailwindcss.com/) for styling
+- [Uppy](https://uppy.io/) for file uploads
+- [Apollo client](https://www.apollographql.com/docs/react/)
+- [React markdown](https://github.com/remarkjs/react-markdown) to preview content
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+Server:
 
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-```
-
-```bash
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
-
-```bash
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- [GraphQL Yoga](https://www.graphql-yoga.com/)
+- [GraphQL Codegen](https://www.graphql-code-generator.com/)
+- [Prisma](https://www.prisma.io/) for database
+- [Transloadit](https://transloadit.com/) to store images
+- [GQL IDE](https://gql.app/) to test GraphQL API
