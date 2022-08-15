@@ -31,11 +31,9 @@ export default function EditPostPage() {
 
   return (
     <div>
-      <div className="flex justify-between p-5">
+      <nav className="flex justify-between p-5">
         <Link href={"/"}>
-          <a className="text-gray-600 text-xl flex items-center no-underline font-normal py-1">
-            Home
-          </a>
+          <a className="text-gray-600 py-1">Home</a>
         </Link>
         <div className="space-x-2">
           <button
@@ -55,8 +53,8 @@ export default function EditPostPage() {
             {loading ? "Saving..." : "Save"}
           </button>
         </div>
-      </div>
-      <div className="p-5">
+      </nav>
+      <div className="p-5 mx-auto">
         {mode === "editor" ? (
           <Editor doc={doc} setDoc={setDoc} />
         ) : (

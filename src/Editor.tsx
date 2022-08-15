@@ -54,7 +54,7 @@ export function Editor({
   }, [uppy]);
 
   return (
-    <>
+    <div className="prose lg:prose-xl mx-auto">
       <StatusBar uppy={uppy} hideAfterFinish={true} showProgressDetails />
       <div className="border-b justify-end flex mb-4">
         <div className="hover:bg-gray-50">
@@ -94,6 +94,6 @@ export function Editor({
           EditorView.lineWrapping,
         ]}
       />
-    </>
+    </div>
   );
 }
