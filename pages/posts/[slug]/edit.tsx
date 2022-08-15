@@ -42,7 +42,7 @@ export default function EditPostPage() {
             className="px-3 py-1 rounded-lg text-gray-600"
             onClick={toggleMode}
           >
-            Preview
+            {mode === "editor" ? "Preview" : "Edit"}
           </button>
           <button
             className="px-3 py-1 rounded-lg bg-blue-400 text-white hover:bg-white border border-blue-400 hover:text-blue-400"
