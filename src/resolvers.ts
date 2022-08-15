@@ -1,10 +1,14 @@
 import { Resolvers } from "./types";
 import { prisma } from "./db";
+import { starWars, uniqueNamesGenerator } from "unique-names-generator";
 
 export const resolvers: Resolvers = {
   Query: {
     posts: async () => {
-      const posts = await prisma.post.findMany({ include: { content: true } });
+      const posts = await prisma.post.findMany({
+        include: { content: true },
+        orderBy: { createdAt: "desc" },
+      });
       return {
         edges: posts.map((post) => ({
           node: post,
@@ -32,7 +36,10 @@ export const resolvers: Resolvers = {
           slug,
           content: {
             create: {
-              markdown: "# Hello markdown\n\n```javascript\nlet x = 'y'\n```",
+              markdown:
+                "# Hello " +
+                uniqueNamesGenerator({ dictionaries: [starWars] }) +
+                "\n\n```javascript\nlet x = 'y'\n```",
             },
           },
         },

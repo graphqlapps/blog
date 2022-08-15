@@ -13,6 +13,7 @@ datasource db {
 model Post {
   id            String       @id @default(cuid())
   slug          String       @unique
+  createdAt     DateTime     @default(now())
   content       PostContent? @relation(fields: [postContentId], references: [id])
   postContentId String?
 }

@@ -43,7 +43,7 @@ export default function EditPostPage() {
             {mode === "editor" ? "Preview" : "Edit"}
           </button>
           <button
-            className="px-3 py-1 rounded-lg bg-blue-400 text-white hover:bg-white border border-blue-400 hover:text-blue-400"
+            className="px-3 py-1 rounded-lg bg-blue-400 text-white hover:bg-blue-500"
             onClick={() => {
               editPostContent({
                 variables: { input: { slug, markdown: doc } },
