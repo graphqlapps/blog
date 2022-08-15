@@ -20,6 +20,7 @@
     "@uppy/react": "^2.2.2",
     "@uppy/status-bar": "^2.2.1",
     "@uppy/transloadit": "^2.3.6",
+    "@uppy/tus": "^2.4.2",
     "graphql": "^16.5.0",
     "next": "latest",
     "prisma": "^4.2.1",

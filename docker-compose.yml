@@ -8,3 +8,7 @@ services:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: example
+  tus:
+    image: tusproject/tusd
+    ports:
+      - 1080:1080
