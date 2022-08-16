@@ -2,6 +2,29 @@
 
 This example shows a headless markdown editor. Editors can write markdown and preview the result in the browser. Consumers can use GraphQL to fetch the markdown content.
 
+## Getting started
+
+To get started with this template, first install the npm dependencies, run the docker services and finally start the development server:
+
+```bash
+yarn install
+docker compose up -d
+```
+
+The docker command starts both the database and the image hosting service locally.
+
+Next, run the development server:
+
+```bash
+yarn dev
+```
+
+The dev server should be running at [http://localhost:3000](http://localhost:3000)
+
+## Technologies
+
+These are the technologies this blog is built upon:
+
 Editor:
 
 - [Codemirror](https://codemirror.net) to edit Markdown
