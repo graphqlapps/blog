@@ -3,7 +3,7 @@ import { readFileSync } from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { join } from "path";
 import { renderGraphiQL } from "@graphqlapps/ide";
-import { resolvers } from "../../src/resolvers";
+import { resolvers } from "../../src/graphql/resolvers";
 
 export const config = {
   api: {

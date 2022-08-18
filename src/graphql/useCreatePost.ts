@@ -1,3 +1,4 @@
+import { MutationTuple } from "@apollo/client";
 import Router from "next/router";
 import {
   adjectives,
@@ -26,7 +27,8 @@ export function useCreatePost() {
       if (res.data?.createPost.post) {
         Router.push(`/${res.data.createPost.post.slug}`);
       }
+      return res;
     });
   }
-  return { createPost, status };
+  return [createPost, status] as ReturnType<typeof useCreatePostMutation>;
 }

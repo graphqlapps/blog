@@ -1,19 +1,35 @@
 import { ReactNode } from "react";
 import {
-  PostsDocument,
-  useDeletePostMutation,
-  usePostsQuery,
-} from "../src/types";
+  CreatePostMutation,
+  CreatePostMutationVariables,
+  DeletePostMutation,
+  DeletePostMutationVariables,
+  PostsQuery,
+  PostsQueryVariables,
+} from "../graphql/types";
 import Router, { useRouter } from "next/router";
 import Link from "next/link";
-import { useCreatePost } from "./useCreatePost";
+import { MutationTuple, QueryResult } from "@apollo/client";
 
-export function Layout({ children }: { children?: ReactNode | undefined }) {
-  const { createPost } = useCreatePost();
-  const [deletePost] = useDeletePostMutation({
-    refetchQueries: [PostsDocument],
-  });
-  const postsQuery = usePostsQuery();
+export function Layout({
+  postsQueryResult,
+  createPost,
+  children,
+  deletePost,
+}: {
+  postsQueryResult: QueryResult<PostsQuery, PostsQueryVariables>;
+  createPost: MutationTuple<CreatePostMutation, CreatePostMutationVariables>[0];
+  createPostResult?: MutationTuple<
+    CreatePostMutation,
+    CreatePostMutationVariables
+  >[1];
+  deletePost: MutationTuple<DeletePostMutation, DeletePostMutationVariables>[0];
+  deletePostResult?: MutationTuple<
+    DeletePostMutation,
+    DeletePostMutationVariables
+  >[1];
+  children?: ReactNode | undefined;
+}) {
   const router = useRouter();
   return (
     <div className="grid grid-cols-[250px_1fr] h-screen">
@@ -25,7 +41,7 @@ export function Layout({ children }: { children?: ReactNode | undefined }) {
             </a>
           </Link>
           <ul className="py-2">
-            {postsQuery.loading ? (
+            {postsQueryResult.loading ? (
               <>
                 <li className="p-2">
                   <div className="bg-gray-100 animate-pulse h-[50px]" />
@@ -38,16 +54,16 @@ export function Layout({ children }: { children?: ReactNode | undefined }) {
                 </li>
               </>
             ) : null}
-            {postsQuery.data?.posts.edges.map((post) => (
+            {postsQueryResult.data?.posts.edges.map((post) => (
               <li
                 key={post.node.id}
-                className={`p-2 flex justify-between hover:bg-gray-200 ${
+                className={`flex justify-between hover:bg-gray-200 ${
                   router.query.slug === post.node.slug ? "bg-gray-200" : ""
                 }`}
               >
                 <Link href={`/${post.node.slug}`}>
                   <a
-                    className={`inline-block p-2 w-full text-gray-500 ${
+                    className={`inline-block py-2 px-3 w-full text-gray-500 ${
                       router.query.slug === post.node.slug
                         ? "font-medium text-black"
                         : ""
@@ -66,7 +82,7 @@ export function Layout({ children }: { children?: ReactNode | undefined }) {
                       }
                     });
                   }}
-                  className="hover:text-red-400 text-gray-400"
+                  className="hover:text-red-400 text-gray-400 mx-3"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

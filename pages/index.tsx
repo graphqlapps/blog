@@ -1,37 +1,30 @@
 import type { NextPage } from "next";
-import { Layout } from "../src/Layout";
-import { PostsDocument, useCreatePostMutation } from "../src/types";
-import { useCreatePost } from "../src/useCreatePost";
+import { Layout } from "../src/ui/Layout";
+import {
+  PostsDocument,
+  useDeletePostMutation,
+  usePostsQuery,
+} from "../src/graphql/types";
+import { useCreatePost } from "../src/graphql/useCreatePost";
+import { EmptyPostPage } from "../src/ui/EmptyPostPage";
 
 const Home: NextPage = () => {
-  const { createPost, status } = useCreatePost();
+  const [createPost, createPostResult] = useCreatePost();
+  const postsQueryResult = usePostsQuery();
+  const [deletePost] = useDeletePostMutation({
+    refetchQueries: [PostsDocument],
+  });
+
   return (
-    <Layout>
-      <div className="h-screen flex items-center justify-center">
-        <button
-          disabled={status.loading}
-          onClick={() => {
-            createPost();
-          }}
-          className="border border-gray-300 hover:border-gray-400 border-dashed w-96 h-56 flex flex-col items-center justify-center rounded-xl"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-16 w-16 text-gray-300"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-            />
-          </svg>
-          <span>Create a new post</span>
-        </button>
-      </div>
+    <Layout
+      postsQueryResult={postsQueryResult}
+      createPost={createPost}
+      deletePost={deletePost}
+    >
+      <EmptyPostPage
+        createPost={createPost}
+        createPostResult={createPostResult}
+      />
     </Layout>
   );
 };

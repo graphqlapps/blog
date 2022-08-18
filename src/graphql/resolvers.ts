@@ -1,5 +1,5 @@
 import { Resolvers } from "./types";
-import { prisma } from "./db";
+import { prisma } from "../db";
 import { starWars, uniqueNamesGenerator } from "unique-names-generator";
 
 export const resolvers: Resolvers = {
