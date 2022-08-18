@@ -3,7 +3,7 @@ import Uppy from "@uppy/core";
 export function ImageButton({ uppy }: { uppy: Uppy }) {
   return (
     <div className="flex items-center">
-      <label htmlFor="image-input" className="p-4">
+      <label htmlFor="image-input" className="p-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"

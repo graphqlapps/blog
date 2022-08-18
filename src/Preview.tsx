@@ -5,7 +5,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 export function Preview({ doc }: { doc: string }) {
   return (
-    <div className="prose lg:prose-xl mx-auto">
+    <div className="prose lg:prose-xl mx-auto mt-10">
       <ReactMarkdown
         components={{
           code({ node, inline, className, children, ...props }) {

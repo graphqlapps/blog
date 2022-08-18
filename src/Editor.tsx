@@ -54,46 +54,48 @@ export function Editor({
   }, [uppy]);
 
   return (
-    <div className="prose lg:prose-xl mx-auto">
+    <>
       <StatusBar uppy={uppy} hideAfterFinish={true} showProgressDetails />
-      <div className="border-b justify-end flex mb-4">
-        <div className="hover:bg-gray-50">
+      <div className="border-b border-gray-100 flex mb-4 p-2">
+        <div className="hover:bg-gray-50 text-gray-400">
           <ImageButton uppy={uppy} />
         </div>
       </div>
-      <CodeMirror
-        onUpdate={({ state }) => {
-          if (state.selection) {
-            selection.current = state.selection;
-          }
-        }}
-        onCreateEditor={(v, s) => {
-          viewRef.current = v;
-          stateRef.current = s;
-        }}
-        autoFocus
-        theme={EditorView.theme({
-          ".cm-editor": {
-            height: "100%",
-          },
-          ".cm-content": {
-            fontFamily: "Menlo, Monaco, Lucida Console, monospace",
-          },
-          ".cm-gutters": {
-            display: "none",
-          },
-        })}
-        basicSetup={{
-          lineNumbers: false,
-          highlightActiveLine: false,
-        }}
-        value={doc}
-        onChange={setDoc}
-        extensions={[
-          markdown({ base: markdownLanguage, codeLanguages: languages }),
-          EditorView.lineWrapping,
-        ]}
-      />
-    </div>
+      <div className="prose lg:prose-xl mx-auto">
+        <CodeMirror
+          onUpdate={({ state }) => {
+            if (state.selection) {
+              selection.current = state.selection;
+            }
+          }}
+          onCreateEditor={(v, s) => {
+            viewRef.current = v;
+            stateRef.current = s;
+          }}
+          autoFocus
+          theme={EditorView.theme({
+            ".cm-editor": {
+              height: "100%",
+            },
+            ".cm-content": {
+              fontFamily: "Menlo, Monaco, Lucida Console, monospace",
+            },
+            ".cm-gutters": {
+              display: "none",
+            },
+          })}
+          basicSetup={{
+            lineNumbers: false,
+            highlightActiveLine: false,
+          }}
+          value={doc}
+          onChange={setDoc}
+          extensions={[
+            markdown({ base: markdownLanguage, codeLanguages: languages }),
+            EditorView.lineWrapping,
+          ]}
+        />
+      </div>
+    </>
   );
 }
