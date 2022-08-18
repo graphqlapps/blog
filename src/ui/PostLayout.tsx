@@ -41,7 +41,7 @@ export function PostLayout({
       <nav className="flex justify-end p-2 border-b border-gray-100 sticky top-0 z-10 bg-white">
         <div className="space-x-2">
           <button
-            className="p-1 text-gray-400 text-sm hover:bg-gray-100"
+            className="p-1 text-gray-400 text-sm hover:bg-gray-100 preview"
             onClick={toggleMode}
           >
             {mode === "editor" ? (
@@ -82,7 +82,7 @@ export function PostLayout({
             )}
           </button>
           <button
-            className="p-1 text-gray-400 text-sm hover:bg-gray-100"
+            className="p-1 text-gray-400 text-sm hover:bg-gray-100 save"
             onClick={() => {
               editPostContent({
                 variables: { input: { slug, markdown: doc } },
