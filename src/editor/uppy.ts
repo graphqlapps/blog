@@ -15,7 +15,6 @@ export const useUppy = ({
   return useMemo(() => {
     const uppy = new Uppy({
       autoProceed: true,
-      restrictions: { maxNumberOfFiles: 1 },
     });
     if (process.env.NODE_ENV === "development") {
       uppy.use(Tus, {
