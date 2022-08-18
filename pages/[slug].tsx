@@ -28,8 +28,8 @@ export default function EditPostPage() {
 
   return (
     <Layout>
-      <div className="min-w-[900px]">
-        <nav className="flex justify-end p-2 border-b border-gray-100">
+      <div className="min-w-[900px] h-screen overflow-y-auto">
+        <nav className="flex justify-end p-2 border-b border-gray-100 sticky top-0 z-10 bg-white">
           <div className="space-x-2">
             <button
               className="p-1 text-gray-400 text-sm hover:bg-gray-100"

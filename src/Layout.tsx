@@ -25,10 +25,10 @@ export function Layout({ children }: { children?: ReactNode | undefined }) {
   const router = useRouter();
   return (
     <div className="grid grid-cols-[250px_1fr] h-screen">
-      <nav className="bg-gray-50 flex flex-col justify-between text-sm">
+      <nav className="bg-gray-50 flex flex-col justify-between text-sm h-screen overflow-y-auto">
         <div className="space-y-5">
           <Link href="/">
-            <a className="flex items-center w-full p-2 gap-2 text-gray-500 hover:bg-gray-200">
+            <a className="flex items-center w-full p-2 gap-2 text-gray-500 hover:bg-gray-200 sticky top-0">
               Home
             </a>
           </Link>
@@ -100,7 +100,7 @@ export function Layout({ children }: { children?: ReactNode | undefined }) {
               }
             });
           }}
-          className="flex items-center w-full p-2 gap-2 text-gray-500 hover:bg-gray-200 border-t border-gray-200"
+          className="flex items-center w-full p-2 gap-2 text-gray-500 hover:bg-gray-200 border-t border-gray-200 sticky bottom-0"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

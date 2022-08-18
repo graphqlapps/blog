@@ -56,7 +56,7 @@ export function Editor({
   return (
     <>
       <StatusBar uppy={uppy} hideAfterFinish={true} showProgressDetails />
-      <div className="border-b border-gray-100 flex mb-4 p-2">
+      <div className="border-b border-gray-100 flex mb-4 p-2 sticky z-10 bg-white top-[51px]">
         <div className="hover:bg-gray-50 text-gray-400">
           <ImageButton uppy={uppy} />
         </div>
