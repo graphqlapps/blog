@@ -1,23 +1,15 @@
 import { ReactNode } from "react";
 import {
   PostsDocument,
-  useCreatePostMutation,
   useDeletePostMutation,
   usePostsQuery,
 } from "../src/types";
 import Router, { useRouter } from "next/router";
 import Link from "next/link";
-import {
-  adjectives,
-  animals,
-  colors,
-  uniqueNamesGenerator,
-} from "unique-names-generator";
+import { useCreatePost } from "./useCreatePost";
 
 export function Layout({ children }: { children?: ReactNode | undefined }) {
-  const [createPost] = useCreatePostMutation({
-    refetchQueries: [PostsDocument],
-  });
+  const { createPost } = useCreatePost();
   const [deletePost] = useDeletePostMutation({
     refetchQueries: [PostsDocument],
   });
@@ -97,21 +89,7 @@ export function Layout({ children }: { children?: ReactNode | undefined }) {
         </div>
         <button
           onClick={() => {
-            createPost({
-              variables: {
-                input: {
-                  slug: uniqueNamesGenerator({
-                    dictionaries: [adjectives, colors, animals],
-                    separator: "-",
-                    length: 3,
-                  }),
-                },
-              },
-            }).then((res) => {
-              if (res.data?.createPost.post) {
-                Router.push(`/${res.data.createPost.post.slug}`);
-              }
-            });
+            createPost();
           }}
           className="flex items-center w-full p-2 gap-2 text-gray-500 hover:bg-gray-200 border-t border-gray-200 sticky bottom-0 bg-gray-50"
         >
