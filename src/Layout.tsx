@@ -28,11 +28,24 @@ export function Layout({ children }: { children?: ReactNode | undefined }) {
       <nav className="bg-gray-50 flex flex-col justify-between text-sm h-screen overflow-y-auto">
         <div className="space-y-5">
           <Link href="/">
-            <a className="flex items-center w-full p-2 gap-2 text-gray-500 hover:bg-gray-200 sticky top-0">
+            <a className="flex items-center w-full p-4 gap-2 text-gray-500 hover:bg-gray-200 sticky top-0 bg-gray-50">
               Home
             </a>
           </Link>
           <ul className="py-2">
+            {postsQuery.loading ? (
+              <>
+                <li className="p-2">
+                  <div className="bg-gray-100 animate-pulse h-[50px]" />
+                </li>
+                <li className="p-2">
+                  <div className="bg-gray-100 animate-pulse h-[50px]" />
+                </li>
+                <li className="p-2">
+                  <div className="bg-gray-100 animate-pulse h-[50px]" />
+                </li>
+              </>
+            ) : null}
             {postsQuery.data?.posts.edges.map((post) => (
               <li
                 key={post.node.id}
@@ -100,7 +113,7 @@ export function Layout({ children }: { children?: ReactNode | undefined }) {
               }
             });
           }}
-          className="flex items-center w-full p-2 gap-2 text-gray-500 hover:bg-gray-200 border-t border-gray-200 sticky bottom-0"
+          className="flex items-center w-full p-2 gap-2 text-gray-500 hover:bg-gray-200 border-t border-gray-200 sticky bottom-0 bg-gray-50"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
