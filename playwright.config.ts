@@ -11,7 +11,7 @@ import { devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-  testDir: "./end-to-end-tests",
+  testDir: "./tests/feature",
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
@@ -46,7 +46,7 @@ const config: PlaywrightTestConfig = {
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        headless: false,
+        // headless: false,
       },
     },
   ],

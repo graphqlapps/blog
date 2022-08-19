@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import Home from "../pages/index";
-import { GraphQLProvider } from "../src/graphql/GraphQLProvider";
+import Home from "../../pages/index";
+import { GraphQLProvider } from "../../src/graphql/GraphQLProvider";
 
 describe("Home", () => {
   it("renders an empty state", () => {
